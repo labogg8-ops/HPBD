@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Decor App</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
         body {
@@ -14,11 +15,16 @@
 
         #canvas {
             position: relative;
-            width: 100vw;
-            height: 100vh;
-            background-image: url("images/Stephen.jpeg");
+            width: 100%;
+            max-width: 1000px;
+            height: 600px;
+            margin: auto;
+            background-image: url("images/Stephen.jpeg"); /* sửa đúng tên bg */
             background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
+
         #gridCanvas {
             display: none;
         }
@@ -40,9 +46,9 @@
 
         .text {
             position: absolute;
-            top: 125px;
-            left: 200px;
-            font-size: 70px;
+            top: 100px;
+            left: 130px;
+            font-size: 50px;
             font-weight: bold;
             color: rgb(255, 143, 171);
             font-family: 'Fredoka', sans-serif;
@@ -50,9 +56,9 @@
 
         .text2 {
             position: absolute;
-            top: 125px;
-            left: 900px;
-            font-size: 70px;
+            top: 100px;
+            left: 600px;
+            font-size: 50px;
             font-weight: bold;
             font-family: 'Fredoka', sans-serif;
             color: rgb(255, 143, 171);
@@ -73,8 +79,8 @@
     <canvas id="gridCanvas" class="grid-lines"></canvas>
 
     <img src="images/cake.png" class="sticker" style="top:150px; left:100px; width:550px;">
-    <img src="images/hat.png" class="sticker" style="top:400px; left:500px;">
-    <img src="images/kinh.png" class="sticker" style="top:80px; left:100px; width:350px;">
+    <img src="images/hat.png" class="sticker" style="top:400px; left:500px; width:150px;">
+    <img src="images/kinh.png" class="sticker" style="top:80px; left:100px; width:250px;">
 
     <div class="text">Chuc Mung</div>
     <div class="text2">Sinh Nhat Mom</div>
