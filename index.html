@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Decor App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: Arial;
+        }
+
+        #canvas {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background-image: url("images/Stephen.jpeg");
+            background-size: cover;
+        }
+        #gridCanvas {
+            display: none;
+        }
+
+        /* GRID */
+        .grid-lines {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .sticker {
+            position: absolute;
+            width: 200px;
+            cursor: grab;
+            touch-action: none;
+        }
+
+        .text {
+            position: absolute;
+            top: 125px;
+            left: 200px;
+            font-size: 70px;
+            font-weight: bold;
+            color: rgb(255, 143, 171);
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        .text2 {
+            position: absolute;
+            top: 125px;
+            left: 900px;
+            font-size: 70px;
+            font-weight: bold;
+            font-family: 'Fredoka', sans-serif;
+            color: rgb(255, 143, 171);
+        }
+
+        button {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            padding: 8px 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="canvas">
+    <canvas id="gridCanvas" class="grid-lines"></canvas>
+
+    <img src="images/cake.png" class="sticker" style="top:150px; left:100px; width:550px;">
+    <img src="images/hat.png" class="sticker" style="top:400px; left:500px;">
+    <img src="images/kinh.png" class="sticker" style="top:80px; left:100px; width:350px;">
+
+    <div class="text">Chuc Mung</div>
+    <div class="text2">Sinh Nhat Mom</div>
+</div>
+
+<script>
+    const gridCanvas = document.getElementById("gridCanvas");
+    const ctx = gridCanvas.getContext("2d");
+
+    function resizeCanvas() {
+        gridCanvas.width = window.innerWidth;
+        gridCanvas.height = window.innerHeight;
+        drawGrid();
+    }
+
+    function drawGrid() {
+        ctx.clearRect(0, 0, gridCanvas.width, gridCanvas.height);
+        ctx.strokeStyle = "rgba(255,255,255,0.4)";
+        ctx.fillStyle = "white";
+        ctx.font = "12px Arial";
+
+        let size = 50;
+
+        for (let x = 0; x < gridCanvas.width; x += size) {
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, gridCanvas.height);
+            ctx.stroke();
+            ctx.fillText(x, x + 2, 12);
+        }
+
+        for (let y = 0; y < gridCanvas.height; y += size) {
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(gridCanvas.width, y);
+            ctx.stroke();
+            ctx.fillText(y, 2, y + 12);
+        }
+    }
+
+    function toggleGrid() {
+        if (gridCanvas.style.display === "none") {
+            gridCanvas.style.display = "block";
+        } else {
+            gridCanvas.style.display = "none";
+        }
+    }
+
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    /* DRAG STICKERS */
+    document.querySelectorAll(".sticker").forEach(sticker => {
+
+    let offsetX = 0;
+    let offsetY = 0;
+
+    function startDrag(clientX, clientY) {
+        offsetX = clientX - sticker.offsetLeft;
+        offsetY = clientY - sticker.offsetTop;
+    }
+
+    function dragMove(clientX, clientY) {
+        sticker.style.left = (clientX - offsetX) + "px";
+        sticker.style.top = (clientY - offsetY) + "px";
+    }
+
+    // ===== PC MOUSE =====
+    sticker.addEventListener("mousedown", e => {
+        startDrag(e.clientX, e.clientY);
+
+        function move(e) {
+            dragMove(e.clientX, e.clientY);
+        }
+
+        document.addEventListener("mousemove", move);
+
+        document.addEventListener("mouseup", () => {
+            document.removeEventListener("mousemove", move);
+        }, { once: true });
+    });
+
+    // ===== PHONE TOUCH =====
+    sticker.addEventListener("touchstart", e => {
+        const touch = e.touches[0];
+        startDrag(touch.clientX, touch.clientY);
+    });
+
+    sticker.addEventListener("touchmove", e => {
+        const touch = e.touches[0];
+        dragMove(touch.clientX, touch.clientY);
+    });
+});
+</script>
+
+</body>
+</html>
